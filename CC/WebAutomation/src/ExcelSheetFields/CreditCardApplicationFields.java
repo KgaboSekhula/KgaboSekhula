@@ -1,0 +1,72 @@
+package ExcelSheetFields;
+
+public class CreditCardApplicationFields {
+
+    public static String accountNo = "AccountNo";
+    public static String password = "Password";
+    public static String ClientTitle	="ClientTitle";
+    public static String ClientName		="ClientName";
+    public static String ClientSurname		="ClientSurname";
+    public static String referenceNumber		="referenceNumber";
+    public static String identificationType		="identificationType";
+    public static String ClientIDNumber		="ClientIDNumber";
+    public static String countryOfResidence		="countryOfResidence";
+    //public static String DateOfBirth		="DateOfBirth";
+   // public static String ClientGender		="ClientGender";
+    public static String countryOfBirth		="countryOfBirth";
+    public static String clientCasaCountryOfResidence = "clientCasaCountryOfResidence";
+    public static String addressLine1Residential		="addressLine1Residential";
+    public static String addressLine2Residential		="addressLine2Residential";
+    public static String addressSuburbResidential		="addressSuburbResidential";
+    public static String addressCityResidential		="addressCityResidential";
+    public static String addressPostalCodeResidential		="addressPostalCodeResidential";
+    public static String preferredCommChannele		="preferredCommChannele";
+    public static String phoneDialCodeHome		="phoneDialCodeHome";
+    public static String phoneNoHome		="phoneNoHome";
+    public static String phoneDialCodeEmployer		="phoneDialCodeEmployer";
+    public static String phoneNoEmployer		="phoneNoEmployer";
+    public static String cellNo	="cellNo";
+    public static String eMailAddress		="eMailAddress";
+    public static String employementOccupationStatus = "employementOccupationStatus";
+    public static String employmentSector="employmentSector";
+    public static String employmentOccupationCode="employmentOccupationCode";
+    public static String employmentOccupationLevel="employmentOccupationLevel";
+    public static String employmentName="employmentName";
+    public static String employerPhysicalAddressLine1		="employerPhysicalAddressLine1";
+    public static String employerPhysicalAddressSuburb		="employerPhysicalAddressSuburb";
+    public static String employerPhysicalAddressCity		="employerPhysicalAddressCity";
+    public static String employerPhysicalAddressPostalCode		="employerPhysicalAddressPostalCode";
+    public static String totalIncome ="totalIncome";
+    public static String totalNetIncome		="totalNetIncome";
+    public static String totalRepayments		="totalRepayments";
+    public static String totalExpenses=	"totalExpenses";
+    public static String maintenanceExpenses		="maintenanceExpenses";
+    public static String kinFirstNames		="kinFirstNames";
+    public static String kinClientname		="kinClientname";
+    public static String kinPhoneDialCodeHome		="kinPhoneDialCodeHome";
+    public static String kinPhoneNoHome		="kinPhoneNoHome";
+    public static String kinPhoneDialCodeEmployer		="kinPhoneDialCodeEmployer";
+    public static String kinPhoneNoEmployer		="kinPhoneNoEmployer";
+    public static String kinCellNo		="kinCellNo";
+    public static String kinEMailAddress		="kinEMailAddress";
+    public static String cardProdGroupId1		="cardProdGroupId1";
+    public static String debitAcccount	="debitAcccount";
+  public static String homeLanguage = "homeLanguage";
+  public static String clientNationality = "clientNationality";
+   public static String clientMaritalStatus = "clientMaritalStatus";
+   public static String clientBankName = "clientBankName";
+   public static String clientAccountNumber = "clientAccountNumber";
+   public static String clientBankAccountType = "clientBankAccountType";
+   public static String clientSourceOfFunds = "clientSourceOfFunds";
+   public static String clientResidentialStatus = "clientResidentialStatus";
+   public static String nextOfKinFirstName = "nextOfKinFirstName";
+   public static String nextOfKinSurname = "nextOfKinSurname";
+   public static String nextOfKinRelationship = "nextOfKinRelationship";
+   public static String nextOfKinCellPhoneNumber = "nextOfKinCellPhoneNumber";
+   public static String nextOfKinEmailAddress = "nextOfKinEmailAddress";
+   public static String accountType = "accountType";
+   public static String accountNumber = "accountNumber";
+   public static String debitDay = "debitDay";
+
+
+}
