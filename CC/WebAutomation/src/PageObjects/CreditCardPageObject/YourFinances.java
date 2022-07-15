@@ -88,7 +88,7 @@ public class YourFinances {
        // return SafeToContinue;
     }
 
-    public void EmploymentInformation(String clientEmploymentOccupationStatus,String clientEmploymentSector,String clientEmploymentOccupationCode,String clientEmploymentOccupationLevel,String clientEmploymentName,String clientEmploymentAddress1,String clientEmploymentAddress2,String clientEmploymentCity, String clientEmploymentPostalCode , String clientDependancy) throws Exception {
+    public String EmploymentInformation(String clientEmploymentOccupationStatus,String clientEmploymentSector,String clientEmploymentOccupationCode,String clientEmploymentOccupationLevel,String clientEmploymentName,String clientEmploymentAddress1,String clientEmploymentAddress2,String clientEmploymentCity, String clientEmploymentPostalCode , String clientDependancy) throws Exception {
 
             // if (SafeToContinue) {
             TestReporter.LogStep("The User is capturing the 'Employment Information' in the '2.Getting started' page of the application process");
@@ -114,8 +114,10 @@ public class YourFinances {
                 driverActions.Click(clientQualificationRadioButton, "User declared qualifications");
                 driverActions.SelectDropDown(highestQualificationButton, "Masters","User has selected the client highest Qualification ");
                 driverActions.SelectDropDown(clientDebitDayDropdown, clientDependancy,"User has selected clientDependancy :"+clientDependancy);
+                return CreditCardRefNumber;
             }
 
+            return null;
                // } else {
                     //discontinue the application if this section could not be completed
                  //   SafeToContinue = false;

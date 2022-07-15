@@ -4,6 +4,8 @@ import com.relevantcodes.extentreports.ExtentReports;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+
+import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -12,8 +14,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,10 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-
 public class SeleniumDriver  {
-
-
 
 
     public static WebDriver driver;
@@ -37,19 +38,22 @@ public class SeleniumDriver  {
     public  static String browser;
     private WebDriverWait wait;
     JavascriptExecutor js;
+    boolean hasTestStarted =false;
 
     public void SetupTest(String url, String testName) throws IOException {
         BrowserConfig();
-
-        ReportClass.ReportDirectory();
         driver.manage().window().maximize();
         webDriverWait = new WebDriverWait(driver,TIMEOUT);
         driver.manage().timeouts().implicitlyWait(TIMEOUT,TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT,TimeUnit.SECONDS);
         js = (JavascriptExecutor) driver;
-        TestReporter.extent = new ExtentReports(ReportClass.fullReportPath, true);
+        if (!hasTestStarted){
+            ReportClass.ReportDirectory();
+            TestReporter.extent = new ExtentReports(ReportClass.fullReportPath, true);
+            hasTestStarted = true;
+        }
         TestReporter.test = TestReporter.extent.startTest(testName);
-        openPage(url);
+        OpenPage(url);
     }
 
     private void BrowserConfig() throws IOException {
@@ -74,7 +78,7 @@ public class SeleniumDriver  {
         }
     }
 
-    public void openPage(String url){
+    public void OpenPage(String url){
         driver.get(url);
     }
 
@@ -89,8 +93,6 @@ public class SeleniumDriver  {
         TestReporter.extent.flush();
     }
     public void TearDown(){
-
-
 
         if (driver!=null){
 
@@ -226,13 +228,18 @@ public class SeleniumDriver  {
     public void WaitForElementToBeClickable(By locator)  {
 
         wait = new WebDriverWait(driver,15);
-        wait.until(ExpectedConditions.elementToBeClickable (locator));
+       // wait.until(ExpectedConditions.elementToBeClickable (locator));
     }
 
     public void ScrollElementToView(By locator){
 
         js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView();", locator);
+    }
+
+    public void RefreshPage(){
+
+        driver.navigate().refresh();
     }
 
     public String SwitchToActiveWindow(){
@@ -268,6 +275,48 @@ public class SeleniumDriver  {
         scrollDown.Perform();*/
 
 
+    }
+
+    public void BFG() throws IOException {
+        File input = new File("CC/CaptchImage/captch.png");
+        BufferedImage image = ImageIO.read(input);
+
+        BufferedImage result = new BufferedImage(
+                image.getWidth(),
+                image.getHeight(),
+                BufferedImage.TYPE_BYTE_BINARY);
+
+        Graphics2D graphic = result.createGraphics();
+        graphic.drawImage(image, 0, 0, Color.GREEN, null);
+        graphic.dispose();
+
+        File output = new File("CC/CaptchImage/captch.png");
+        ImageIO.write(result, "jpg", output);
+    }//main() ends here
+
+
+
+    public void DownloadImageFromWebPage(By locator) throws IOException, InterruptedException {
+
+        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        WebElement element=driver.findElement(locator);
+        System.out.println(element.getSize());
+
+        // Take full screen screenshot
+        BufferedImage  fullImg = ImageIO.read(screenshot);
+        ImageIO.read(screenshot).getHeight();
+        System.out.println(fullImg.getHeight());
+        System.out.println(fullImg.getWidth());
+
+        int elementWidth = element.getSize().getWidth();
+        int elementHeight = element.getSize().getHeight();
+
+        // Now no exception here
+        BufferedImage elementScreenshot= fullImg.getSubimage(660, 500,elementWidth+150,elementHeight+30);
+
+        // crop the image to required
+        ImageIO.write(elementScreenshot, "png", screenshot);
+        FileUtils.copyFile(screenshot, new File("CC/CaptchImage/captch1.png"));
     }
 
     public String GetScreenshot() throws Exception {

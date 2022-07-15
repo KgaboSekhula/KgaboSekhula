@@ -1,6 +1,7 @@
 package Utilities;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -20,7 +21,6 @@ public class ExcelFunctions {
     public static XSSFWorkbook wb;
     private XSSFSheet sheet;
     public static int totalColumns =0;
-
 
     public  ExcelFunctions(FileInputStream input_document) {
         try {
@@ -58,43 +58,19 @@ public class ExcelFunctions {
         return formatter.formatCellValue(cell).trim();
     }
 
-    public void WriteToCell(String results, String runStatus, String accountNo,String comment,String transactionStatyus, int iScenario,int ColumnCount, int ColumnC, int ColumnAccountNo, int ColumnComment, int ColumnTransaction) throws IOException {
+    public void WriteToCell(int Scenario, int Column, String Value ) throws IOException {
 
-        Row row = sheet.getRow(iScenario);
-        Cell cell = row.getCell(ColumnCount);
+        Row row = sheet.getRow(Scenario);
+        cell = sheet.getRow(Scenario).getCell(Column);
         if (cell == null) {
-            cell = row.createCell(ColumnCount);
+            cell = row.createCell(Scenario);
         }
-        cell.setCellValue(runStatus);
-
-        Cell cell1 = row.getCell(ColumnC);
-        if(cell1 == null)
-        {
-            cell1 = row.createCell(ColumnC);
-        }
-        cell1.setCellValue(results);
-
-        Cell cell2 = row.getCell(ColumnAccountNo);
-        if(cell2 == null)
-        {
-            cell2 = row.createCell(ColumnAccountNo);
-        }
-        cell2.setCellValue(accountNo);
-
-        Cell cell3 = row.getCell(ColumnComment);
-        if(cell3 == null)
-        {
-            cell3 = row.createCell(ColumnComment);
-        }
-        cell3.setCellValue(comment);
-
-        Cell cell4 = row.getCell(ColumnTransaction);
-        if(cell4 == null)
-        {
-            cell4 = row.createCell(ColumnTransaction);
-        }
-        cell4.setCellValue(transactionStatyus);
-        wb.write(output_document);
+        CellStyle cs = wb.createCellStyle();
+        cs.setWrapText(true);   //Wrapping text
+        cell.setCellStyle(cs);
+        cell.setCellValue(Value);
+        FileOutputStream out = new FileOutputStream(System.getProperty("user.dir")+"\\CC\\DataSheets\\testNew.xlsx");
+        wb.write(out);
     }
 }
 

@@ -58,7 +58,7 @@ public class SetupYourCard {
                TestReporter.LogStep("User completing 'Quotation Details' section of the '6.Set-up Your Card' Page");
 
                TestReporter.PassScenarioWithScreenShot("Quotation screenshot before accepting the credit card quotation");
-               driverActions.WindowScroll();
+               //driverActions.WindowScroll();
                TestReporter.PassScenarioWithScreenShot("Quotation screenshot before accepting the credit card quotation");
                System.out.println("Accept quote button is available for customer to accept credit card quotation");
                driverActions.Click(acceptQuoteButton,"User has clicked the acceptQuoteButton");

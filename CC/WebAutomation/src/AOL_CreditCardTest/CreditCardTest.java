@@ -31,6 +31,8 @@ public class CreditCardTest {
     String url;
     String testName;
     String accountNo;
+    int creditCardApplicationRefno;
+    int runStatusColumn;
     String password;
     String ClientName	;
     String ClientSurname	;
@@ -92,6 +94,7 @@ public class CreditCardTest {
     String accountType;
     String accountNumber;
     String debitDay;
+    String runStatus;
 
     @BeforeMethod
     public void LaunchBrowser() throws IOException,Exception {
@@ -100,10 +103,8 @@ public class CreditCardTest {
         url = p.getObjectRepository().getProperty("nonlogin");
         testName = p.getObjectRepository().getProperty("creditCardFlowTestName");
         filePath = p.getObjectRepository().getProperty("PersonalLoanFlowFilePath");
-        Thread.sleep(5000);
         input_document = new FileInputStream(String.valueOf(new File(filePath)));
         excel = new ExcelFunctions(input_document);
-        seleniumDriver.SetupTest(url, testName);
         captchaPage = new CaptchaPage();
         beforeYouStart = new BeforeYouStart();
         gettingStarted  = new GettingStarted();
@@ -112,7 +113,10 @@ public class CreditCardTest {
         setupYourCard = new SetupYourCard();
         yourFinances = new YourFinances();
         thankYou = new ThankYou();
+        creditCardApplicationRefno = excel.columnsNames.indexOf(CreditCardApplicationFields.creditCardReferenceNumber);
+        runStatusColumn = excel.columnsNames.indexOf(CreditCardApplicationFields.runStatus);
     }
+
 
     @Test
     public void OpenCreditCardTest() {
@@ -120,36 +124,50 @@ public class CreditCardTest {
         for (int i = 1; i < ExcelFunctions.ScenarioCount; i++) {
 
             try {
+
                 SetData(i);
-                Thread.sleep(2000);
+                if(runStatus.equalsIgnoreCase("No Run")){
 
-                //For New Applications
-                captchaPage.captchaNewApplication();
-                beforeYouStart.DeclarationInformation();
-                gettingStarted.DetailsInformation(ClientName, ClientSurname, identificationType, ClientIDNumber, countryOfResidence, countryOfBirth, clientCasaCountryOfResidence);
-                gettingStarted.AddressInformation(addressLine1Residential, addressLine2Residential, addressSuburbResidential, addressCityResidential, addressPostalCodeResidential);
-                gettingStarted.ContactInformation(cellNo, preferredCommChannele);
-                yourFinances.EmploymentInformation(employementOccupationStatus, employmentSector, employmentOccupationCode, employmentOccupationLevel, employmentName, employerPhysicalAddressLine1, employerPhysicalAddressSuburb, employerPhysicalAddressCity, employerPhysicalAddressPostalCode, "1");
-                yourFinances.FinancialInformation(totalIncome, totalNetIncome,totalRepayments, totalExpenses, maintenanceExpenses, clientBankName, clientAccountNumber, clientBankAccountType, clientSourceOfFunds);
-                aboutYou.PersonalDetails(clientNationality,clientMaritalStatus,homeLanguage , homeLanguage);
-                aboutYou.AddressInformation(clientResidentialStatus);
-                aboutYou.NextOfKinInformation(nextOfKinFirstName,nextOfKinSurname,nextOfKinRelationship,nextOfKinCellPhoneNumber,nextOfKinEmailAddress);
-                chooseYourCard.ChoosingCard();
-                setupYourCard.CreditCardOptions();
-                setupYourCard.paymentSettings(accountType, accountNumber,ClientSurname +" "+ ClientName , debitDay);
-                setupYourCard.StatementDelivery();
-                setupYourCard.QuotationDetails();
-                thankYou.ConfirmCreditCardApproval();
-                seleniumDriver.EndTest();
+                    seleniumDriver.SetupTest(url, "Credit Card Application - "+i);
+                    Thread.sleep(2000);
+                    //For New Applications
+                    captchaPage.captchaNewApplication();
+                    beforeYouStart.DeclarationInformation();
+                    gettingStarted.DetailsInformation(ClientName, ClientSurname, identificationType, ClientIDNumber, countryOfResidence, countryOfBirth, clientCasaCountryOfResidence);
+                    gettingStarted.AddressInformation(addressLine1Residential, addressLine2Residential, addressSuburbResidential, addressCityResidential, addressPostalCodeResidential);
+                    gettingStarted.ContactInformation(cellNo, preferredCommChannele);
+                    String ref = yourFinances.EmploymentInformation(employementOccupationStatus, employmentSector, employmentOccupationCode, employmentOccupationLevel, employmentName, employerPhysicalAddressLine1, employerPhysicalAddressSuburb, employerPhysicalAddressCity, employerPhysicalAddressPostalCode, "1");
+                    yourFinances.FinancialInformation(totalIncome, totalNetIncome,totalRepayments, totalExpenses, maintenanceExpenses, clientBankName, clientAccountNumber, clientBankAccountType, clientSourceOfFunds);
+                    aboutYou.PersonalDetails(clientNationality,clientMaritalStatus,homeLanguage , homeLanguage);
+                    aboutYou.AddressInformation(clientResidentialStatus);
+                    aboutYou.NextOfKinInformation(nextOfKinFirstName,nextOfKinSurname,nextOfKinRelationship,nextOfKinCellPhoneNumber,nextOfKinEmailAddress);
+                    chooseYourCard.ChoosingCard();
+                    setupYourCard.CreditCardOptions();
+                    setupYourCard.paymentSettings(accountType, accountNo,ClientSurname +" "+ ClientName , debitDay);
+                    setupYourCard.paymentSettings(accountType, accountNo,ClientSurname +" "+ ClientName , debitDay);
+                    setupYourCard.StatementDelivery();
+                    setupYourCard.QuotationDetails();
 
-            }catch (Exception ex) {
+                    thankYou.ConfirmCreditCardApproval();
+                    Thread.sleep(2000);
+                    excel.WriteToCell(i,creditCardApplicationRefno,ref.trim());
 
+                    excel.WriteToCell(i,runStatusColumn,"Run");
+                    seleniumDriver.EndTest();
+                }
+
+
+            }
+            catch (Exception ex){
                 seleniumDriver.EndTest();
                 System.out.println(ex.getMessage());
             }
         }
     }
+
     private void SetData(int Scenario) throws IOException {
+
+        runStatus = excel.ReadCell(Scenario,excel.columnsNames.indexOf(CreditCardApplicationFields.runStatus));
         accountNo = excel.ReadCell(Scenario, excel.columnsNames.indexOf(CreditCardApplicationFields.accountNo));
         ClientName = excel.ReadCell(Scenario, excel.columnsNames.indexOf(CreditCardApplicationFields.ClientName));
         ClientSurname = excel.ReadCell(Scenario, excel.columnsNames.indexOf(CreditCardApplicationFields.ClientSurname));
@@ -212,7 +230,5 @@ public class CreditCardTest {
         accountType = excel.ReadCell(Scenario,excel.columnsNames.indexOf(CreditCardApplicationFields.accountType));
         accountNumber = excel.ReadCell(Scenario,excel.columnsNames.indexOf(CreditCardApplicationFields.accountNumber));
         debitDay = excel.ReadCell(Scenario,excel.columnsNames.indexOf(CreditCardApplicationFields.debitDay));
-
-
        }
 }

@@ -2,7 +2,9 @@ package ExcelSheetFields;
 
 public class CreditCardApplicationFields {
 
+    public static String runStatus = "Run Status";
     public static String accountNo = "AccountNo";
+    public static String creditCardReferenceNumber = "CC Reference";
     public static String password = "Password";
     public static String ClientTitle	="ClientTitle";
     public static String ClientName		="ClientName";
