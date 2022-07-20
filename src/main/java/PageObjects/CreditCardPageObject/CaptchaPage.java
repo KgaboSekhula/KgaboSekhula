@@ -31,9 +31,10 @@ public class CaptchaPage {
             driverActions.Click(radioButtonNo,"user selected No button");
             driverActions.WaitForElementToBeClickable(captchaImg);
             driverActions.DownloadImageFromWebPage(captchaImg);
-            Thread.sleep(5000);
+            driver.switchTo().frame("main");
             String captureText = GoogleImageReader.ReadImageText("CaptchImage/captch.png");
             captureText = captureText.replaceAll("\\s+","");
+            driverActions.SwitchToActiveWindow();
             driverActions.SendKeys(capture,captureText, "Enter Capture Details");
             driverActions.Click(continueButton,"User Clicks on the continue button");
             if (!driverActions.IsElementVisible(errorDialogBox)){

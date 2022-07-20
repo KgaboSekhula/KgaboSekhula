@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -137,18 +138,20 @@ public class SeleniumDriver  {
        return driver.findElement(locator).getAttribute("value");
     }
 
-    public void SelectDropDown(By locator, String optionText,String stepInfo) throws Exception {
-            try {
-                WaitForElementToBeClickable(locator);
-                Select dropDownOptions = new Select(driver.findElement(locator));
-                dropDownOptions.selectByVisibleText(optionText);
-                TestReporter.PassStep(stepInfo);
 
-            }catch (Exception ex){
+    public void SelectDropDown(By locator, String optionText,String stepInfo) throws Exception {
+        try {
+            WaitForElementToBeClickable(locator);
+            Select dropDownOptions = new Select(driver.findElement(locator));
+            dropDownOptions.selectByVisibleText(optionText);
+            TestReporter.PassStep(stepInfo);
+
+        }catch (Exception ex){
 
             TestReporter.FailScenario("Unable to complete step - "+stepInfo);
             throw ex;
         }
+
     }
 
     public void WindowScroll(){
@@ -297,33 +300,15 @@ public class SeleniumDriver  {
 
     public void DownloadImageFromWebPage(By locator) throws IOException, InterruptedException {
 
+        String imageUrl = driver.findElement(locator).getAttribute("src");
+        ((JavascriptExecutor)driver).executeScript("window.open()");
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.get(imageUrl);
         File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        WebElement element=driver.findElement(locator);
-        System.out.println(element.getSize());
-
-        // Take full screen screenshot
-        BufferedImage  fullImg = ImageIO.read(screenshot);
-        ImageIO.read(screenshot).getHeight();
-        System.out.println(fullImg.getHeight());
-        System.out.println(fullImg.getWidth());
-
-        int elementWidth = element.getSize().getWidth();
-        int elementHeight = element.getSize().getHeight();
-
-
-        Actions actions = new Actions(driver);
-
-// Get the location and Coordinate (x, y) of WebElement “gmail”. Call getLocation(), getX(), and getY() methods to find the location and coordinate.
-        int getX = element.getLocation().getX();
-        int getY = element.getLocation().getY();
-
-
-        // Now no exception here
-        BufferedImage elementScreenshot= fullImg.getSubimage(getX, getY,elementWidth,elementHeight);
-
-        // crop the image to required
-        ImageIO.write(elementScreenshot, "png", screenshot);
         FileUtils.copyFile(screenshot, new File("CaptchImage/captch.png"));
+        driver.close();
+        driver.switchTo().window(tabs.get(0)); //switches to new tab
     }
 
     public String GetScreenshot() throws Exception {
