@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="AOL_CreditCardTest.CreditCardTest" duration-ms="522302" started-at="2022-07-20T06:23:27Z" finished-at="2022-07-20T06:32:09Z">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="522302" started-at="2022-07-20T06:23:27Z" finished-at="2022-07-20T06:32:09Z">
+      <class name="AOL_CreditCardTest.CreditCardTest">
+        <test-method status="PASS" signature="LaunchBrowser()[pri:0, instance:AOL_CreditCardTest.CreditCardTest@29ca901e]" name="LaunchBrowser" is-config="true" duration-ms="537" started-at="2022-07-20T08:23:27Z" finished-at="2022-07-20T08:23:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LaunchBrowser -->
+        <test-method status="PASS" signature="OpenCreditCardTest()[pri:0, instance:AOL_CreditCardTest.CreditCardTest@29ca901e]" name="OpenCreditCardTest" duration-ms="521747" started-at="2022-07-20T08:23:27Z" finished-at="2022-07-20T08:32:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- OpenCreditCardTest -->
+      </class> <!-- AOL_CreditCardTest.CreditCardTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- AOL_CreditCardTest.CreditCardTest -->
+</testng-results>
