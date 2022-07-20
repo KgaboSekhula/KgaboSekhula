@@ -310,8 +310,16 @@ public class SeleniumDriver  {
         int elementWidth = element.getSize().getWidth();
         int elementHeight = element.getSize().getHeight();
 
+
+        Actions actions = new Actions(driver);
+
+// Get the location and Coordinate (x, y) of WebElement “gmail”. Call getLocation(), getX(), and getY() methods to find the location and coordinate.
+        int getX = element.getLocation().getX();
+        int getY = element.getLocation().getY();
+
+
         // Now no exception here
-        BufferedImage elementScreenshot= fullImg.getSubimage(660, 500,elementWidth+150,elementHeight+30);
+        BufferedImage elementScreenshot= fullImg.getSubimage(getX, getY,elementWidth,elementHeight);
 
         // crop the image to required
         ImageIO.write(elementScreenshot, "png", screenshot);
