@@ -29,7 +29,8 @@ public class CaptchaPage {
             driver.switchTo().frame("main");
             Thread.sleep(2000);
             driverActions.Click(radioButtonNo,"user selected No button");
-            driverActions.WaitForElementToBeClickable(captchaImg);
+            Thread.sleep(2000);
+           // driverActions.WaitForElementToBeClickable(captchaImg);
             driverActions.DownloadImageFromWebPage(captchaImg);
             driver.switchTo().frame("main");
             String captureText = GoogleImageReader.ReadImageText("CaptchImage/captch.png");
