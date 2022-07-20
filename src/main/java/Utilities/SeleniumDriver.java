@@ -60,21 +60,20 @@ public class SeleniumDriver  {
 
         browser = p.getObjectRepository().getProperty("browser");
 
+        String driverPath;
         if (browser.equals("Chrome")) {
 
-            WebDriverManager.chromedriver().setup();
-
+            driverPath = p.getObjectRepository().getProperty("chromeDriver");
+            System.setProperty("webdriver.chrome.driver", driverPath);
             if (driver == null) {
                 driver = new ChromeDriver();
             }
         }
         else if (browser.equals("FireFox")){
             WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
         }
         else if (browser.equals("Edge")) {
             WebDriverManager.edgedriver().setup();
-            driver = new EdgeDriver();
         }
     }
 
