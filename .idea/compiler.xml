@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="KgaboSekhula" target="1.8" />
+      <module name="KgaboSekhula" target="8" />
       <module name="Test-Data-Web-FrameWork" target="8" />
     </bytecodeTargetLevel>
   </component>
